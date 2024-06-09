@@ -178,10 +178,23 @@
             align-items: center;
             justify-content: center;
             color: #fff;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+
+        .intro-container.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
         .intro-content {
             text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .intro-image {
+            width: 80%;
+            max-width: 400px;
             margin-bottom: 20px;
         }
 
@@ -203,6 +216,7 @@
 <body>
     <div class="intro-container" id="intro-container">
         <div class="intro-content">
+            <img src="https://via.placeholder.com/400x300" alt="Couple Getting Married" class="intro-image">
             <h2>Witness two souls unite in love</h2>
             <p>Want your relationship to get better?</p>
         </div>
@@ -286,7 +300,11 @@
 
     <script>
         function hideIntro() {
-            document.getElementById('intro-container').style.display = 'none';
+            const introContainer = document.getElementById('intro-container');
+            introContainer.classList.add('hidden');
+            setTimeout(() => {
+                introContainer.style.display = 'none';
+            }, 1000);
         }
 
         function showPopup() {
@@ -296,6 +314,37 @@
         function hidePopup() {
             document.getElementById('popup').style.display = 'none';
         }
+
+        function createBackgroundHearts() {
+            const background = document.getElementById('background');
+            for (let i = 0; i < 100; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heart.style.fontSize = `${Math.random() * 50 + 10}px`; // Random heart sizes
+                background.appendChild(heart);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', createBackgroundHearts);
+
+        document.addEventListener('click', function(e) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = `${e.pageX - 12}px`; // Adjust position for better centering
+            heart.style.top = `${e.pageY - 12}px`; // Adjust position for better centering
+            heart.style.fontSize = '24px'; // Fixed size for click hearts
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        });
+
+        setInterval(createHeart, 300);
 
         function createHeart() {
             const heart = document.createElement('div');
@@ -309,8 +358,6 @@
                 heart.remove();
             }, 5000);
         }
-
-        setInterval(createHeart, 300);
     </script>
 </body>
 </html>
